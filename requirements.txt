@@ -1,0 +1,5 @@
+
+selenium
+pytest
+webdriver-manager
+eyes-selenium
