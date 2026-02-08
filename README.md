@@ -37,3 +37,8 @@ The goal is not to replace QA expertise, but to enhance:
 
 ## 📁 Repository Structure
 
+## 📌 Current Status
+- Manual test cases completed for Login and Dynamic Elements
+- Edge cases generated and reviewed using AI assistance
+- Automation and visual testing in progress
+
