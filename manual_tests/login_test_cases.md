@@ -19,5 +19,5 @@ Application: https://the-internet.herokuapp.com/login
 | TC-LGN-007   | Submit login form with empty password    | Enter username, leave password empty, click Login | Error message displayed                   |
 | TC-LGN-008   | Submit login form with both fields empty | Leave both fields empty, click Login              | Error message displayed                   |
 | TC-LGN-009   | Use leading/trailing spaces in username  | Enter username with spaces, valid password        | Login fails or trims spaces appropriately |
-| TC-LGN-010   | Refresh secure page after logout         | Login → Logout → Refresh browser                  | User remains logged out                   |
+| c            |
 
