@@ -1,6 +1,9 @@
 import pytest
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import os
+from datetime import datetime
+from test_metrics.metrics import TestMetrics
 
 
 @pytest.fixture
@@ -32,3 +35,35 @@ def driver():
     driver = webdriver.Chrome(options=chrome_options)
     yield driver
     driver.quit()
+
+
+metrics = TestMetrics()
+
+@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call":
+        # ---- Metrics tracking ----
+        if report.passed:
+            metrics.record_result("passed")
+        elif report.failed:
+            metrics.record_result("failed")
+        elif report.skipped:
+            metrics.record_result("skipped")
+
+        # ---- Screenshot on failure ----
+        if report.failed:
+            driver = item.funcargs.get("driver")
+            if driver:
+                os.makedirs("screenshots", exist_ok=True)
+                file_name = (
+                    f"screenshots/"
+                    f"{item.name}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.png"
+                )
+                driver.save_screenshot(file_name)
+
+
+def pytest_sessionfinish(session, exitstatus):
+    metrics.save_to_google_sheets()
